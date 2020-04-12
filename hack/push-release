@@ -18,7 +18,7 @@ function main () {
   git checkout release
   git reset --hard ${init_branch}
 
-  sed -i '' '#dist/#d' .gitignore
+  sed -i '' '/dist/d' .gitignore
   npm install
   npm run-script package
 
