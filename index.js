@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import * as os from 'os';
-import * as path from 'path';
-import * as util from 'util';
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const util = require('util');
 
-import * as core from '@actions/core';
-import * as toolCache from '@actions/tool-cache';
+const core = require('@actions/core');
+const toolCache = require('@actions/tool-cache');
 
 /** Get the expected file extension for the cr binary. */
 function getExecutableExtension() {
@@ -81,10 +81,10 @@ async function downloadChartReleaser(version) {
     const downloadUrl = getDownloadUrl(version);
     let downloadPath;
     try {
-      downloadPath = await toolCache.downloadTool(downloadurl);
+      downloadPath = await toolCache.downloadTool(downloadUrl);
     } catch (exception) {
       core.debug(exception);
-      throw new Error(`Failed to download chart-releaser from ${downloadUrl}`));
+      throw new Error(`Failed to download chart-releaser from ${downloadUrl}`);
     }
 
     fs.chmodSync(downloadPath, '777');

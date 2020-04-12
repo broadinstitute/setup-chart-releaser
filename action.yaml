@@ -10,4 +10,4 @@ outputs:
     description: Path to the cached cr binary
 runs:
   using: node12
-  main: index.js
+  main: dist/index.js
