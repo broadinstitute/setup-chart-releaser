@@ -17,7 +17,7 @@ function getExecutableExtension() {
 
 /** Get the download URL of the cr binary for the host running the action. */
 function getDownloadUrl(version) {
-  const downloadPattern = 'https://github.com/helm/chart-releaser/releases/download/%s/chart-releaser_%s_%s';
+  const downloadPattern = 'https://github.com/helm/chart-releaser/releases/download/v%s/chart-releaser_%s_%s';
 
   switch (os.type()) {
     case 'Linux':
