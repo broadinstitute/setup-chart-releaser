@@ -35,7 +35,12 @@ async function getLatestVersion() {
 
   return toolCache.downloadTool(latestReleaseUrl).then((downloadPath) => {
     const response = JSON.parse(fs.readFileSync(downloadPath, 'utf8').toString().trim());
-    return response.tag_name;
+    const rawTag = response.tag_name
+    if (rawTag.charAt(0) === 'v') {
+      return rawTag.substr(1);
+    } else {
+      return rawTag;
+    }
   }, (error) => {
     core.debug(error);
     throw new Error(`Failed to get latest version of chart-releaser from ${latestReleaseUrl}`);
