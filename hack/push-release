@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+declare -r SCRIPT_DIR=$(cd $(dirname ${0}) >/dev/null 2>&1 && pwd)
+declare -r REPO_ROOT=$(cd $(dirname ${SCRIPT_DIR}) >/dev/null 2>&1 && pwd)
+
+function main () {
+  if [ $# -ne 1 ]; then
+    1>&2 echo Usage: ${0} '<version-tag>'
+    exit 1
+  fi
+
+  local -r version=$1
+  local -r init_branch=$(git -C ${REPO_ROOT} rev-parse --abbrev-ref HEAD)
+  trap "cd $(pwd) && git -C ${REPO_ROOT} checkout ${init_branch} &> /dev/null" EXIT
+
+  cd ${REPO_ROOT}
+  git checkout release
+  git reset --hard ${init_branch}
+
+  sed -i '' '/dist/d' .gitignore
+  npm install
+  npm run-script package
+
+  git add .
+  git commit -m "Generate artifact for version $version"
+  git push -f origin release
+  git tag -a $version -m $version
+  git push origin $version
+}
+
+main ${@}

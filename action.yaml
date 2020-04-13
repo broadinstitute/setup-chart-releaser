@@ -1,0 +1,13 @@
+name: Set up chart-releaser
+description: Install a specific version of chart-releaser, or the latest available version
+inputs:
+  version:
+    description: Version of chart-releaser
+    required: true
+    default: 'latest'
+outputs:
+  cr-path:
+    description: Path to the cached cr binary
+runs:
+  using: node12
+  main: dist/index.js
